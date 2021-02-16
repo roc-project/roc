@@ -8,6 +8,8 @@ brew list |\
     grep -vE 'pkg-config|automake|libtool|cmake|xz|readline|openssl|sqlite|python|gdbm|xquartz' |\
     xargs brew pin
 
+brew link --overwrite python@3.9
+
 brew install "scons"
 brew install "ragel"
 brew install "gengetopt"
