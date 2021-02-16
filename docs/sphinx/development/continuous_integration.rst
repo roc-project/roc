@@ -17,7 +17,7 @@ Docker images for continuous integration and cross-compilation are prepared usin
 If images build have to be customized with build arguments it can be accomplished by using :ref:`build hooks`.
 
 Links:
- * `Travis project <https://travis-ci.org/roc-streaming/roc-toolkit>`_
+ * `Travis project <https://travis-ci.com/github/roc-streaming/roc-toolkit>`_
  * `Travis configuration <https://github.com/roc-streaming/roc-toolkit/blob/master/.travis.yml>`_
  * `Docker Hub organization <https://hub.docker.com/u/rocstreaming/>`_
  * `Dockerfiles repo <https://github.com/roc-streaming/dockerfiles>`_
