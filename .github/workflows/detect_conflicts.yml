@@ -1,4 +1,4 @@
-name: "Detect PRs with conflicts"
+name: "detect conflicts"
 
 on:
   push:
