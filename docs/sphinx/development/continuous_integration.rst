@@ -8,24 +8,24 @@ Continuous integration
 Overview
 ========
 
-Travis is configured to build ``master`` and ``develop`` branches and pull requests.
+GitHub Actions are configured to build ``master`` and ``develop`` branches and pull requests.
 
-Travis builds Roc for Linux and macOS. Linux worker uses Docker to run builds on several Linux distros. Linux worker also uses QEMU to run cross-compiled tests.
+GitHub Actions build Roc for Linux and macOS. Linux worker uses Docker to run builds on several Linux distros. Linux worker also uses QEMU to run cross-compiled tests.
 
 Docker images for continuous integration and cross-compilation are prepared using Docker Hub automated builds. They are based on official upstream images, adding pre-installed packages required for build. Dockerfiles for images are hosted in a separate GitHub repository. When a Dockerfile or an upstream image changes, Docker Hub automatically triggers rebuild.
 
 If images build have to be customized with build arguments it can be accomplished by using :ref:`build hooks`.
 
 Links:
- * `Travis project <https://travis-ci.com/github/roc-streaming/roc-toolkit>`_
- * `Travis configuration <https://github.com/roc-streaming/roc-toolkit/blob/master/.travis.yml>`_
+ * `GitHub Actions page <https://github.com/roc-streaming/roc-toolkit/actions>`_
+ * `GitHub Actions configuration <https://github.com/roc-streaming/roc-toolkit/blob/master/.github/workflows/build.yml>`_
  * `Docker Hub organization <https://hub.docker.com/u/rocstreaming/>`_
  * `Dockerfiles repo <https://github.com/roc-streaming/dockerfiles>`_
 
 Docker images
 =============
 
-The following Docker images are used on our Travis builds.
+The following Docker images are used on our CI builds.
 
 Linux native
 ------------
@@ -79,13 +79,13 @@ rocstreaming/env-android:jdk11             openjdk:11.0.7-jdk-slim-buster
 Run builds locally
 ==================
 
-It is possible to run Docker-based builds locally, in the same environment as they are run on Travis.
+It is possible to run Docker-based builds locally, in the same environment as they are run on CI.
 
 For example, this will run Fedora build:
 
 .. code::
 
-   $ scripts/travis/docker.sh rocstreaming/env-fedora scripts/travis/linux-x86_64/fedora.sh
+   $ scripts/ci/docker-linux.sh rocstreaming/env-fedora scripts/ci/linux-x86_64/fedora.sh
 
 You can also invoke Docker manually:
 
@@ -179,7 +179,7 @@ For enabling hardware acceleration run the container in privileged mode, i.e. by
 
 .. warning::
 
-  Since Travis runs jobs already on a virtual environment, if the emulator need to be run on Travis the ``env-android`` image must be run with ``--privileged`` option for allowing virtualization nesting.
+  Since CI runs jobs already on a virtual environment, if the emulator need to be run on CI, the ``env-android`` image must be run with ``--privileged`` option for allowing virtualization nesting.
 
 To see if acceleration is available use:
 
@@ -218,7 +218,7 @@ To create an Android Virtual Device (AVD) and run the emulator:
 
       $ adb devices
       List of devices attached
-      emulator-xxxx	device
+      emulator-xxxx device
       # "device" indicates that boot is completed
       # "offline" indicates that boot is still going on
 
@@ -232,7 +232,7 @@ The ``env-android`` image provides an helper script named ``device`` that takes 
   .. code::
 
       $ device create --api=<API> --image=<IMAGE> --arch=<ARCH> --name=<AVD-NAME>
-  
+
   The string ``"system-images;android-<API>;<IMAGE>;<ARCH>"`` defines the emulator system image to be installed (it must be present in the list offered by ``sdkmanager --list``)
 
 * start device and wait until boot is completed
