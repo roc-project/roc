@@ -21,24 +21,22 @@ PulseaudioBackend::PulseaudioBackend() {
     roc_log(LogDebug, "initializing pulseaudio backend");
 }
 
-bool PulseaudioBackend::probe(const char* driver, const char*, int filter_flags) {
-    if ((filter_flags & FilterDevice) == 0) {
-        return false;
-    }
-
-    if ((filter_flags & FilterSink) == 0) {
-        return false;
-    }
-
-    return !driver || strcmp(driver, "pulse") == 0;
-}
-
 ISink* PulseaudioBackend::open_sink(core::IAllocator& allocator,
-                                    const char*,
+                                    const char* driver,
                                     const char* output,
-                                    const Config& config) {
+                                    const Config& config,
+                                    int filter_flags) {
+    if ((filter_flags & FilterDevice) == 0) {
+        return NULL;
+    }
+
+    if (driver && strcmp(driver, "pulse")) {
+        return NULL;
+    }
+
     core::ScopedPtr<PulseaudioSink> sink(new (allocator) PulseaudioSink(config),
                                          allocator);
+
     if (!sink) {
         return NULL;
     }
@@ -50,16 +48,16 @@ ISink* PulseaudioBackend::open_sink(core::IAllocator& allocator,
     return sink.release();
 }
 
-ISource* PulseaudioBackend::open_source(core::IAllocator&,
-                                        const char*,
-                                        const char*,
-                                        const Config&) {
+ISource* PulseaudioBackend::open_source(
+    core::IAllocator&, const char*, const char*, const Config&, int) {
     return NULL;
 }
 
-bool PulseaudioBackend::get_drivers(core::StringList& list, int filter_flags) {
+bool PulseaudioBackend::get_drivers(core::Array<DriverInfo>& list, int filter_flags) {
     if (filter_flags & FilterDevice) {
-        return list.push_back_unique("pulse");
+        DriverInfo driver_info;
+        driver_info.set("pulse", this, DriverDevice | DriverDefault | DriverSink);
+        list.push_back(driver_info);
     }
     return true;
 }
