@@ -805,6 +805,7 @@ elif name == 'pulseaudio':
             '--disable-manpages',
             '--disable-orc',
             '--disable-webrtc-aec',
+            '--disable-openssl',
             '--without-caps',
         ])), logfile)
     execute_make(logfile)
