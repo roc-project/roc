@@ -1,6 +1,17 @@
 import re
 import os.path
 
+def _fix_target(s):
+    parts = s.split('-')
+    # "system" part defaults to "pc" on recent config.guess versions
+    # use the same newer format for all compilers
+    if len(parts) == 3:
+        parts = [parts[0]] + ['pc'] + parts[1:]
+    elif len(parts) == 4:
+        if parts[1] == 'unknown':
+            parts[1] = 'pc'
+    return '-'.join(parts)
+
 def ParseGitHead(env):
     try:
         with open('.git/HEAD') as hf:
@@ -73,15 +84,9 @@ def ParseCompilerTarget(env, compiler):
     for line in text.splitlines():
         m = re.search(r'\bTarget:\s*(\S+)', line)
         if m:
-            parts = m.group(1).split('-')
-            # "system" defaults to "pc" on recent config.guess versions
-            # use the same newer format for all compilers
-            if len(parts) == 3:
-                parts = [parts[0]] + ['pc'] + parts[1:]
-            elif len(parts) == 4:
-                if parts[1] == 'unknown':
-                    parts[1] = 'pc'
-            return '-'.join(parts)
+            s = m.group(1)
+            s = _fix_target(s)
+            return s
 
     return None
 
@@ -122,6 +127,7 @@ def ParseConfigGuess(env, cmd):
     if not re.match(r'^\S+-\S+$', text):
         return None
 
+    text = _fix_target(text)
     return text
 
 def ParseList(env, s, all):

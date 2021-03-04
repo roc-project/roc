@@ -710,7 +710,7 @@ elif name == 'ltdl':
     install_tree('libltdl/libltdl', os.path.join(builddir, 'include', 'libltdl'))
     install_files('libltdl/.libs/libltdl.so', os.path.join(builddir, 'lib'))
     install_files('libltdl/.libs/libltdl.so.*', rpathdir)
-elif name == 'json':
+elif name == 'json-c':
     download(
       'https://github.com/json-c/json-c/archive/json-c-%s.tar.gz' % ver,
         'json-%s.tar.gz' % ver,
@@ -738,7 +738,6 @@ elif name == 'json':
         ])), logfile)
     execute_make(logfile, cpu_count=0) # -j is buggy for json-c
     install_tree('.', os.path.join(builddir, 'include'), match=['*.h'])
-    install_files('.libs/libjson.a', os.path.join(builddir, 'lib'))
     install_files('.libs/libjson-c.a', os.path.join(builddir, 'lib'))
 elif name == 'sndfile':
     download(
@@ -795,7 +794,7 @@ elif name == 'pulseaudio':
         makeflags(workdir, toolchain, env, deplist, cflags='-w -fomit-frame-pointer -O2'),
         ' '.join([
             'LIBJSON_CFLAGS=" "',
-            'LIBJSON_LIBS="-ljson-c -ljson"',
+            'LIBJSON_LIBS="-ljson-c"',
             'LIBSNDFILE_CFLAGS=" "',
             'LIBSNDFILE_LIBS="-lsndfile"',
         ]),
