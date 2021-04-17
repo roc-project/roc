@@ -18,7 +18,7 @@ Raspberry Pi 3 Model B
 * RAM: 1GB
 * Wi-Fi: 802.11n
 
-.. image:: https://www.raspberrypi.org/app/uploads/2017/05/Raspberry-Pi-3-462x322.jpg
+.. image:: ../_images/Raspberry-Pi-3-462x322.jpg
    :width: 300px
 
 Raspberry Pi Zero W
@@ -31,7 +31,7 @@ Raspberry Pi Zero W
 * RAM: 512MB
 * Wi-Fi: 802.11 b/g/n
 
-.. image:: https://www.raspberrypi.org/app/uploads/2017/05/Pi-Zero-W-Tilt-462x322.jpg
+.. image:: ../_images/Pi-Zero-W-Tilt-462x322.jpg
    :width: 300px
 
 Orange Pi Lite 2
